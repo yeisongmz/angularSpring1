@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Cliente } from 'src/app/models/clientes/cliente';
-import { ClienteService } from './cliente.service';
+import { Cliente } from 'src/app/models/cliente';
+import { ClienteService } from '../../Services/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Region } from 'src/app/models/clientes/region';
+import { Region } from 'src/app/models/region';
 
 @Component({
   selector: 'app-form',

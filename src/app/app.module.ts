@@ -9,9 +9,9 @@ import { ClientesComponent } from './components/clientes/clientes.component';
 import { FormComponent } from './components/clientes/form.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FormsModule } from '@angular/forms';
-import { ClienteService } from './components/clientes/cliente.service';
+import { ClienteService } from './Services/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -19,19 +19,23 @@ import { registerLocaleData } from '@angular/common';
 
 import localeEs from '@angular/common/locales/es';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDatepickerModule} from '@angular/material';
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import { MatDatepickerModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DetalleComponent } from './components/clientes/detalle/detalle.component';
+import { LoginComponent } from './components/usuarios/login.component';
+import { AuthGuard } from './Guards/auth.guard';
+import { RoleGuard } from './Guards/role.guard';
 
 registerLocaleData(localeEs, 'es');
 
 const routes: Routes = [
-  {path: '', redirectTo: '/clientes', pathMatch: 'full' },
-  {path: 'directivas', component: DirectivaComponent  },
-  {path: 'clientes', component: ClientesComponent },
-  {path: 'clientes/page/:page', component: ClientesComponent },
-  {path: 'clientes/form', component: FormComponent},
-  {path: 'clientes/form/:id', component: FormComponent},
+  { path: '', redirectTo: '/clientes', pathMatch: 'full' },
+  { path: 'directivas', component: DirectivaComponent },
+  { path: 'clientes', component: ClientesComponent },
+  { path: 'clientes/page/:page', component: ClientesComponent },
+  { path: 'clientes/form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'clientes/form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'ROLE_ADMIN'} },
+  { path: 'login', component: LoginComponent }
 ]
 
 @NgModule({
@@ -43,7 +47,8 @@ const routes: Routes = [
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
-    DetalleComponent
+    DetalleComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
