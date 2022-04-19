@@ -11,7 +11,9 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { FormsModule } from '@angular/forms';
 import { ClienteService } from './Services/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './utils/auth.Interceptor';
+import {ErrorInterceptor} from './utils/error.interceptor';
 
 
 
@@ -59,7 +61,9 @@ const routes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule
   ],
-  providers: [ClienteService, { provide: LOCALE_ID, useValue: 'es' }],
+  providers: [ClienteService, { provide: LOCALE_ID, useValue: 'es' }, 
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
